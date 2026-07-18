@@ -21,80 +21,87 @@ function Chip({ status: s }) {
   );
 }
 
+function PanelTitle({ children }) {
+  return <div className="cd-panel-title"><h2>{children}</h2></div>;
+}
+
+export function AiAssistant({ patient, ns, gs, isHot, dashboardContext }) {
+  const [messages, setMessages] = useState([]);
+  const [draft, setDraft] = useState('');
+  const [error, setError] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const profile = {
+    drivers: [
+      `NFL: ${ns.label}`,
+      `GFAP: ${gs.label}`,
+      `Temperature: ${isHot ? 'Heat advisory' : 'Within threshold'}`,
+      `Treatment: ${patient.medication.name}`,
+    ],
+    rationale: `This summary combines your latest marker readings, personal baseline, and environment signal. It is for discussion with your care team.`,
+    assistant: {
+      recommendation: `I’m monitoring ${patient.name.split(' ')[0]}'s latest markers. Ask me to explain a trend or today’s risk.`,
+      prompt: 'Ask a question about your dashboard.',
+    },
+  };
+
+  const send = async () => {
+    const prompt = draft.trim();
+    if (!prompt || isSending) return;
+
+    setDraft('');
+    setError('');
+    setIsSending(true);
+    setMessages((items) => [...items, { prompt, reply: '', pending: true }]);
+
+    try {
+      const response = await fetch('/api/assistant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          message: prompt,
+          dashboardContext,
+          history: messages.flatMap((message) => [
+            { role: 'user', text: message.prompt },
+            ...(message.reply ? [{ role: 'assistant', text: message.reply }] : []),
+          ]),
+        }),
+      });
+      const payload = await response.json();
+      if (!response.ok) throw new Error(payload.error || 'The assistant could not respond.');
+      setMessages((items) => items.map((message, index) => (
+        index === items.length - 1 ? { ...message, reply: payload.reply, pending: false } : message
+      )));
+    } catch (requestError) {
+      setMessages((items) => items.slice(0, -1));
+      setError(requestError.message);
+    } finally {
+      setIsSending(false);
+    }
+  };
+  return (
+    <aside className="cd-panel cd-assistant text-body">
+      <PanelTitle>AI ASSISTANT</PanelTitle><h3>RISK RATIONALE</h3>
+      <div className="cd-rationale">
+        <div><b>KEY RISK DRIVERS:</b>{profile.drivers.map((driver) => <span key={driver}>• {driver.toUpperCase()}</span>)}</div>
+        <p>{profile.rationale}</p>
+      </div>
+      <div className="cd-chat" aria-live="polite">
+        <div className="cd-chat-ai text-body">{profile.assistant.recommendation.toUpperCase()}</div>
+        <div className="cd-chat-user text-body">{profile.assistant.prompt.toUpperCase()}</div>
+        {messages.map((message, index) => <div key={`${message.prompt}-${index}`}><div className="cd-chat-user text-body">{message.prompt}</div><div className="cd-chat-ai text-body">{message.pending ? 'Thinking…' : message.reply}</div></div>)}
+      </div>
+      {error && <p className="cd-chat-error" role="alert">{error}</p>}
+      <div className="cd-message-box"><span>+</span><input aria-label="Message AI assistant" value={draft} onChange={(event) => setDraft(event.target.value)} onKeyDown={(event) => { if (event.key === 'Enter') send(); }} placeholder="TYPE A MESSAGE" disabled={isSending} /><button type="button" onClick={send} aria-label="Send message" disabled={isSending}>➤</button></div>
+    </aside>
+  );
+}
+
 function greetingWord(hours) {
   return hours < 12 ? 'Good morning' : hours < 18 ? 'Good afternoon' : 'Good evening';
 }
 
 const fmtDate = (d) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
 
-function AIAssistant({ patient, ns, gs, isHot }) {
-  const [draft, setDraft] = useState('');
-  const [messages, setMessages] = useState([
-    {
-      id: 1,
-      role: 'assistant',
-      text: `I’m monitoring ${patient.name.split(' ')[0]}'s latest markers. Ask me to explain a trend or today’s risk.`,
-    },
-  ]);
-
-  const getResponse = (question) => {
-    const normalized = question.toLowerCase();
-    if (normalized.includes('nfl') || normalized.includes('trend')) {
-      return `NFL is currently ${ns.label.toLowerCase()} at the latest reading. I compare it with GFAP and your personal baseline before flagging a change.`;
-    }
-    if (normalized.includes('heat') || normalized.includes('environment')) {
-      return isHot
-        ? 'Today’s heat advisory may temporarily worsen symptoms. Stay cool and hydrated, and note whether symptoms ease as you cool down.'
-        : 'There is no heat advisory today. I’ll flag the environment if the temperature rises above your threshold.';
-    }
-    if (normalized.includes('risk') || normalized.includes('status')) {
-      return `Today’s dashboard status is ${ns.label === 'HIGH' || gs.label === 'HIGH' ? 'REVIEW' : isHot || ns.label !== 'STABLE' || gs.label !== 'STABLE' ? 'MONITOR' : 'NORMAL'}. This is a trend signal for specialist review, not a diagnosis.`;
-    }
-    return 'I can explain your biomarker trend, current risk status, or the environment signal. What would you like to explore?';
-  };
-
-  const sendMessage = (event) => {
-    event.preventDefault();
-    const text = draft.trim();
-    if (!text) return;
-    setMessages((current) => [
-      ...current,
-      { id: Date.now(), role: 'user', text },
-      { id: Date.now() + 1, role: 'assistant', text: getResponse(text) },
-    ]);
-    setDraft('');
-  };
-
-  return (
-    <section className="card grid-card assistant-card">
-      <div className="card-head">
-        <span className="card-title">AI ASSISTANT</span>
-        <span className="card-tag card-tag--live"><span className="live-dot" /> ONLINE</span>
-      </div>
-      <div className="assistant-intro">
-        <span className="assistant-mark">AI</span>
-        <p>Ask about your readings, risk signals, or what to do next.</p>
-      </div>
-      <div className="chat-messages" aria-live="polite">
-        {messages.map((message) => (
-          <div key={message.id} className={`chat-message chat-message--${message.role}`}>
-            {message.text}
-          </div>
-        ))}
-      </div>
-      <form className="chat-form" onSubmit={sendMessage}>
-        <label className="sr-only" htmlFor="assistant-message">Message the AI assistant</label>
-        <input
-          id="assistant-message"
-          value={draft}
-          onChange={(event) => setDraft(event.target.value)}
-          placeholder="Ask about your dashboard..."
-        />
-        <button type="submit" aria-label="Send message">→</button>
-      </form>
-    </section>
-  );
-}
 
 export default function Dashboard() {
   const { patientId } = useParams();
@@ -151,6 +158,55 @@ export default function Dashboard() {
   const act = (key) => setActed((prev) => ({ ...prev, [key]: true }));
 
   const now = new Date();
+  const assistantContext = {
+    asOf: now.toISOString(),
+    patient: {
+      id: patient.id,
+      name: patient.name,
+    },
+    overallStatus: {
+      level: stripStatus,
+      reason: stripReason,
+    },
+    biomarkers: {
+      nfl: {
+        ...nfl,
+        series: nflSeries,
+        latest: nflLatest,
+        status: ns.label,
+      },
+      gfap: {
+        ...gfap,
+        latest: gfapLatest,
+        status: gs.label,
+      },
+    },
+    environment: {
+      ...patient.weather,
+      currentTemperatureC: tempC,
+      heatAdvisoryActive: isHot,
+    },
+    medication: {
+      ...med,
+      daysSinceLastDose: daysSince,
+      daysUntilNextDose: Math.max(med.cycleDays - daysSince, 0),
+      nextDoseDate: nextDose.toISOString(),
+      cycleProgressPercent: Math.round(progress * 100),
+      reminderSet: reminded,
+    },
+    escalation: {
+      shown: showEscalation,
+      actions: {
+        mriOrderRequested: Boolean(acted.mri),
+        appointmentRequested: Boolean(acted.book),
+        exportReady: Boolean(acted.export),
+      },
+    },
+    simulation: {
+      flareEnabled: simulateFlare,
+      simulatedNFLValue: simulateFlare ? FLARE_NFL_VALUE : null,
+    },
+  };
 
   const onSignOut = () => {
     signOut();
@@ -243,80 +299,78 @@ export default function Dashboard() {
               label="GFAP 30-day trend against personal baseline"
             />
 
-            <p className="footnote">
+            <p className="footnote text-body">
               NFL can rise without active neurodegeneration, so GFAP is tracked alongside it — against your personal
               baseline — for corroboration.
             </p>
           </section>
 
-          <div className="grid-stretch ai-font" style={{ gridColumn: "1 / -1" }}>
-            <AIAssistant patient={patient} ns={ns} gs={gs} isHot={isHot} />
+          <div className="grid-card assistant-card ai-font">
+            <AiAssistant patient={patient} ns={ns} gs={gs} isHot={isHot} dashboardContext={assistantContext} />
           </div>
+        </div>
 
+        <div className="support-stack">
+          <section className="card grid-card environment-card">
+            <div className="card-head">
+              <span className="card-title">ENVIRONMENT</span>
+              <span className="card-tag">{patient.weather.location.toUpperCase()}</span>
+            </div>
+            <div className="temp-row">
+              <span className="temp">{Math.round(tempC)}°C</span>
+              <span className="condition">{patient.weather.condition.toUpperCase()}</span>
+            </div>
+            {isHot ? (
+              <div className="advisory advisory--heat">
+                <span className="advisory-badge">▲ HEAT</span>
+                <p>
+                  Heat can temporarily worsen MS symptoms (Uhthoff’s phenomenon). Stay cool and hydrated; symptoms
+                  should ease as you cool down.
+                </p>
+              </div>
+            ) : (
+              <div className="advisory advisory--normal">
+                <span className="advisory-badge">✓ NORMAL</span>
+                <p>
+                  No heat risk today. Temperatures above {patient.weather.heatWarnC}°C can temporarily worsen symptoms —
+                  we’ll warn you when that happens.
+                </p>
+              </div>
+            )}
+          </section>
 
-
-          <div className="support-stack">
-            <section className="card grid-card environment-card">
-              <div className="card-head">
-                <span className="card-title">ENVIRONMENT</span>
-                <span className="card-tag">{patient.weather.location.toUpperCase()}</span>
+          <section className="card grid-card medication-card">
+            <div className="card-head">
+              <span className="card-title">MEDICATION</span>
+              <span className="card-tag">NEXT DOSE</span>
+            </div>
+            <div className="med-row">
+              <svg viewBox="0 0 100 100" className="ring" role="img" aria-label="Medication cycle progress">
+                <circle cx="50" cy="50" r="42" className="ring-track" />
+                <circle
+                  cx="50" cy="50" r="42"
+                  className="ring-progress"
+                  strokeDasharray={`${(progress * C).toFixed(1)} ${C.toFixed(1)}`}
+                  transform="rotate(-90 50 50)"
+                />
+                <text x="50" y="48" textAnchor="middle" className="ring-pct">{Math.round(progress * 100)}%</text>
+                <text x="50" y="62" textAnchor="middle" className="ring-caption">OF CYCLE</text>
+              </svg>
+              <div className="med-info">
+                <span className="med-name">{med.name}</span>
+                <span className="med-meta">{`${med.generic} — ${med.cadence}`.toUpperCase()}</span>
+                <span className="med-days">
+                  <strong>{Math.max(med.cycleDays - daysSince, 0)} days</strong> to next {med.doseNoun}
+                </span>
+                <span className="med-dates">
+                  Last dose {fmtDate(lastDose)} · next {fmtDate(nextDose)}
+                </span>
               </div>
-              <div className="temp-row">
-                <span className="temp">{Math.round(tempC)}°C</span>
-                <span className="condition">{patient.weather.condition.toUpperCase()}</span>
-              </div>
-              {isHot ? (
-                <div className="advisory advisory--heat">
-                  <span className="advisory-badge">▲ HEAT</span>
-                  <p>
-                    Heat can temporarily worsen MS symptoms (Uhthoff’s phenomenon). Stay cool and hydrated; symptoms
-                    should ease as you cool down.
-                  </p>
-                </div>
-              ) : (
-                <div className="advisory advisory--normal">
-                  <span className="advisory-badge">✓ NORMAL</span>
-                  <p>
-                    No heat risk today. Temperatures above {patient.weather.heatWarnC}°C can temporarily worsen symptoms —
-                    we’ll warn you when that happens.
-                  </p>
-                </div>
-              )}
-            </section>
-
-            <section className="card grid-card medication-card">
-              <div className="card-head">
-                <span className="card-title">MEDICATION</span>
-                <span className="card-tag">NEXT DOSE</span>
-              </div>
-              <div className="med-row">
-                <svg viewBox="0 0 100 100" className="ring" role="img" aria-label="Medication cycle progress">
-                  <circle cx="50" cy="50" r="42" className="ring-track" />
-                  <circle
-                    cx="50" cy="50" r="42"
-                    className="ring-progress"
-                    strokeDasharray={`${(progress * C).toFixed(1)} ${C.toFixed(1)}`}
-                    transform="rotate(-90 50 50)"
-                  />
-                  <text x="50" y="48" textAnchor="middle" className="ring-pct">{Math.round(progress * 100)}%</text>
-                  <text x="50" y="62" textAnchor="middle" className="ring-caption">OF CYCLE</text>
-                </svg>
-                <div className="med-info">
-                  <span className="med-name">{med.name}</span>
-                  <span className="med-meta">{`${med.generic} — ${med.cadence}`.toUpperCase()}</span>
-                  <span className="med-days">
-                    <strong>{Math.max(med.cycleDays - daysSince, 0)} days</strong> to next {med.doseNoun}
-                  </span>
-                  <span className="med-dates">
-                    Last dose {fmtDate(lastDose)} · next {fmtDate(nextDose)}
-                  </span>
-                </div>
-              </div>
-              <button className="btn-primary" onClick={() => setReminded((r) => !r)}>
-                {reminded ? '✓ REMINDER SET' : 'REMIND ME — ADD TO CALENDAR'}
-              </button>
-            </section>
-          </div>
+            </div>
+            <button className="btn-primary" onClick={() => setReminded((r) => !r)}>
+              {reminded ? '✓ REMINDER SET' : 'REMIND ME — ADD TO CALENDAR'}
+            </button>
+          </section>
         </div>
 
         <p className="disclaimer">

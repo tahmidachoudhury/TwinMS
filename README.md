@@ -21,9 +21,15 @@ TwinMS surfaces trends for specialist review. It does not diagnose relapses or r
 
 ```sh
 npm install
+cp .env.example .env
+# Add your OPENAI_API_KEY to .env
 npm run dev      # http://localhost:5173
 npm run build    # production build in dist/
 ```
+
+## OpenAI assistant
+
+The dashboard assistant sends requests to the server-side `/api/assistant` proxy. Keep `OPENAI_API_KEY` in `.env`; it is never sent to the browser. Set `OPENAI_MODEL` in the same file to override the default model.
 
 ## Demo accounts
 

@@ -75,22 +75,26 @@ a:hover {
 }
 .assistant-card {
   grid-column: span 2;
+  align-self: stretch;
 }
 .biomarker-card {
-  grid-column: span 3;
+  grid-column: span 4;
+}
+.assistant-card .cd-panel {
+  height: 100%;
+  box-sizing: border-box;
 }
 .steps-card {
-  grid-column: span 1;
+  grid-column: 1 / -1;
 }
 .support-stack {
-  grid-column: span 2;
   display: flex;
-  flex-direction: column;
   gap: 14px;
   min-width: 0;
 }
 .support-stack .grid-card {
-  width: 100%;
+  flex: 1 1 0;
+  width: 0;
   box-sizing: border-box;
 }
 
@@ -322,10 +326,11 @@ a:hover {
 /* Escalation card */
 .steps {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 10px;
 }
 .step {
+  flex: 1 1 0;
   border: 1px dashed var(--line);
   border-radius: var(--radius-ctl);
   padding: 12px 14px;
@@ -666,8 +671,7 @@ a:hover {
     grid-column: span 2;
   }
   .support-stack {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    display: flex;
   }
 }
 
@@ -687,6 +691,10 @@ a:hover {
   }
   .support-stack {
     display: flex;
+    flex-direction: column;
+  }
+  .support-stack .grid-card {
+    width: 100%;
   }
   .strip {
     align-items: flex-start;
@@ -696,6 +704,9 @@ a:hover {
   }
   .card {
     padding: 15px 14px 16px;
+  }
+  .steps {
+    flex-direction: column;
   }
   .marker-row {
     gap: 8px;
@@ -862,4 +873,103 @@ a:hover {
   text-align: center;
   margin: 0 12px;
   text-wrap: pretty;
+}
+
+/* Patient dashboard assistant */
+.cd-panel {
+  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  border: var(--card-border);
+  border-radius: var(--radius-card);
+  padding: 18px;
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+.cd-panel-title {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--line-hair);
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+}
+.cd-panel-title h2,
+.cd-assistant h3 {
+  margin: 0;
+  font: 500 var(--text-label) var(--font-mono);
+  letter-spacing: .08em;
+}
+.cd-assistant h3 { margin-bottom: 10px; }
+.cd-rationale {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 18px;
+  border-bottom: 1px solid var(--line-hair);
+  padding-bottom: 14px;
+  font: var(--text-tick) / 1.5 var(--font-mono);
+}
+.cd-rationale b,
+.cd-rationale span { display: block; }
+.cd-rationale p { margin: 0; }
+.cd-chat {
+  min-height: 110px;
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 0 8px;
+}
+.cd-chat-ai,
+.cd-chat-user {
+  width: fit-content;
+  max-width: 80%;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  padding: 9px 12px;
+  line-height: 1.45;
+}
+.cd-chat-ai { background: var(--accent-soft); }
+.cd-chat-user {
+  margin-left: auto;
+  background: #d8d9d0;
+}
+.cd-chat-error {
+  margin: 4px 0 8px;
+  color: var(--status-high);
+  font: var(--text-tick) var(--font-mono);
+}
+.cd-message-box {
+  display: grid;
+  grid-template-columns: 20px 1fr 30px;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid var(--line-hair);
+  padding-top: 10px;
+}
+.cd-message-box > span,
+.cd-message-box button {
+  width: 22px;
+  height: 22px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--surface);
+}
+.cd-message-box input {
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font: var(--text-label) var(--font-sans);
+}
+.cd-message-box button { width: 28px; height: 28px; cursor: pointer; }
+.cd-message-box button:disabled,
+.cd-message-box input:disabled { opacity: .55; cursor: wait; }
+
+@media (max-width: 560px) {
+  .cd-panel { min-height: 400px; padding: 14px; }
+  .cd-rationale { grid-template-columns: 1fr; gap: 10px; }
+  .cd-chat-ai,
+  .cd-chat-user { max-width: 92%; }
 }
