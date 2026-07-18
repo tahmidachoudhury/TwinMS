@@ -133,7 +133,7 @@ export default function ClinicianDashboard() {
       <div className="clinician-column">
         <header className="clinician-masthead">
           <div>
-            <span className="brand">TWINMS</span>
+            <span className="brand">NEUROSENSE</span>
             <span className="clinician-service text-body">{clinicianProfile.service}</span>
           </div>
           <div className="clinician-user">
@@ -249,7 +249,7 @@ export default function ClinicianDashboard() {
         </section>
 
         <footer className="clinician-footer text-body">
-          <span>TWINMS CLINICIAN VIEW · DEMO DATA · FOR SPECIALIST REVIEW ONLY</span>
+          <span>NEUROSENSE CLINICIAN VIEW · DEMO DATA · FOR SPECIALIST REVIEW ONLY</span>
           <span>LAST SYNC {clinicianProfile.reviewWindow}</span>
         </footer>
       </div>

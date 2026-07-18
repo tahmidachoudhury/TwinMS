@@ -1,4 +1,4 @@
-/* TwinMS — component styles. All values come from the tokens in styleguide.css. */
+/* NeuroSense — component styles. All values come from the tokens in styleguide.css. */
 
 html,
 body {
@@ -360,6 +360,7 @@ a:hover {
 }
 .steps-card .steps {
   gap: 8px;
+  padding-block: var(--space-2);
 }
 .steps-card .step {
   padding: 10px;

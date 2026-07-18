@@ -191,7 +191,7 @@ export default function AnalyticsDashboard() {
     <main className="page analytics-page">
       <div className="column">
         <header className="masthead analytics-masthead">
-          <span className="brand">TWINMS</span>
+          <span className="brand">NEUROSENSE</span>
           <nav className="patient-nav" aria-label="Patient navigation">
             <Link to={`/dashboard/${patient.id}`}>OVERVIEW</Link>
             <span aria-current="page">WEARABLE ANALYTICS</span>

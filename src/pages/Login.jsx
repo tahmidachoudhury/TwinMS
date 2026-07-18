@@ -78,7 +78,7 @@ export default function Login() {
             .join(' · ')}
         </p>
         <p className="login-disclaimer">
-          TWINMS SURFACES TRENDS FOR SPECIALIST REVIEW. IT DOES NOT DIAGNOSE RELAPSES OR RECOMMEND TREATMENT.
+          NEUROSENSE SURFACES TRENDS FOR SPECIALIST REVIEW. IT DOES NOT DIAGNOSE RELAPSES OR RECOMMEND TREATMENT.
         </p>
       </div>
     </main>

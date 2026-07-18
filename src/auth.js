@@ -1,8 +1,8 @@
 // Mock auth — replace this storage layer with a real identity provider later.
 import { patients } from './data/twinms-config.js';
 
-const PATIENT_KEY = 'twinms.patientId';
-const ROLE_KEY = 'twinms.role';
+const PATIENT_KEY = 'neurosense.patientId';
+const ROLE_KEY = 'neurosense.role';
 
 export function getCurrentPatientId() {
   const id = localStorage.getItem(PATIENT_KEY);

@@ -217,7 +217,7 @@ export default function Dashboard() {
     <main className="page">
       <div className="column">
         <header className="masthead">
-          <span className="brand">TWINMS</span>
+          <span className="brand">NEUROSENSE</span>
           <nav className="patient-nav" aria-label="Patient navigation">
             <span aria-current="page">OVERVIEW</span>
             <Link to="/analytics-dashboard">WEARABLE ANALYTICS</Link>
@@ -378,7 +378,7 @@ export default function Dashboard() {
         </div>
 
         <p className="disclaimer">
-          TWINMS SURFACES TRENDS FOR SPECIALIST REVIEW. IT DOES NOT DIAGNOSE RELAPSES OR RECOMMEND TREATMENT. ·{' '}
+          NEUROSENSE SURFACES TRENDS FOR SPECIALIST REVIEW. IT DOES NOT DIAGNOSE RELAPSES OR RECOMMEND TREATMENT. ·{' '}
           <button onClick={onSignOut}>SIGN OUT</button>
         </p>
 

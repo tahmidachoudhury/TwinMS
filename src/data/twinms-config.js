@@ -1,7 +1,7 @@
-// TwinMS mock data + per-patient thresholds. Edit freely — the UI reads everything from here.
+// NeuroSense mock data + per-patient thresholds. Edit freely — the UI reads everything from here.
 // NFL bands are fixed clinical cut-offs (same for everyone); GFAP bands are derived
 // from each patient's personal baseline seed points.
-export const brand = { name: "TwinMS", tagline: "Your MS digital twin" };
+export const brand = { name: "NeuroSense", tagline: "Your MS digital twin" };
 
 export const NFL_BANDS = { normalMax: 25, elevatedMax: 40, chartMax: 55 };
 
@@ -9,7 +9,7 @@ export const patients = {
   "TW-0042": {
     id: "TW-0042",
     name: "Maya Lindqvist",
-    email: "maya@twinms.app",
+    email: "maya@neurosense.app",
     markers: {
       nfl: {
         label: "NFL", full: "Neurofilament light chain", unit: "pg/mL",
@@ -77,7 +77,7 @@ export const patients = {
   "TW-0117": {
     id: "TW-0117",
     name: "Jonas Weber",
-    email: "jonas@twinms.app",
+    email: "jonas@neurosense.app",
     markers: {
       nfl: {
         label: "NFL", full: "Neurofilament light chain", unit: "pg/mL",
