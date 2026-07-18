@@ -145,7 +145,6 @@ export default function ClinicianDashboard() {
         <nav className="clinician-nav" aria-label="Clinician dashboard sections">
           <span className="clinician-nav-active text-body">PATIENT OVERVIEW</span>
           <span className="text-body">BIOMARKER DETAILS</span>
-          <span className="text-body">LUNG FUNCTION</span>
           <span className="text-body">ANALYTICS</span>
           <span className="text-body">RISK SIMULATOR</span>
           <span className="text-body">PATIENT HISTORY</span>
