@@ -1,0 +1,48 @@
+/* ============================================================
+   TwinMS design tokens — the ONLY place to re-theme the product.
+   LAYER 1 (brand/editorial) is safe to swap wholesale.
+   LAYER 2 (clinical status) carries clinical meaning: never
+   derive it from the brand accent; re-branding must not change
+   what "high" looks like.
+   ============================================================ */
+:root {
+  /* ---- LAYER 1 — brand / editorial ---- */
+  --canvas:        #e8e5d6;   /* page background */
+  --surface:       #f7f5ec;   /* card surface (cream) */
+  --surface-tint:  #e4e8cc;   /* tinted card / track fills */
+  --ink:           #202b15;   /* primary text */
+  --ink-soft:      #55603f;   /* secondary text */
+  --ink-faint:     #979d84;   /* marginalia, ticks */
+  --accent:        #2e3d1e;   /* forest green — buttons, ring */
+  --accent-soft:   #d9dfb6;   /* light olive highlight */
+  --line:          #b9bda4;   /* dashed card borders */
+  --line-hair:     #d4d2c0;   /* hairline rules under labels */
+
+  --font-display: "Source Serif 4", Georgia, serif;
+  --font-sans:    "Archivo", "Helvetica Neue", Helvetica, sans-serif;
+  --font-mono:    "IBM Plex Mono", ui-monospace, monospace;
+
+  --text-display: 34px;
+  --text-title:   17px;
+  --text-body:    14px;
+  --text-label:   11px;
+  --text-tick:    10px;
+
+  --space-1: 6px;
+  --space-2: 12px;
+  --space-3: 18px;
+  --space-4: 28px;
+
+  --radius-card:  14px;
+  --radius-ctl:   9px;
+  --card-border:  1px dashed var(--line);
+  --shadow-card:  0 1px 2px rgba(32, 43, 21, 0.06);
+
+  /* ---- LAYER 2 — semantic clinical status (independent) ---- */
+  --status-normal:        oklch(0.55 0.09 170);
+  --status-normal-soft:   oklch(0.94 0.035 170);
+  --status-elevated:      oklch(0.60 0.12 72);
+  --status-elevated-soft: oklch(0.94 0.055 85);
+  --status-high:          oklch(0.50 0.15 25);
+  --status-high-soft:     oklch(0.93 0.045 25);
+}

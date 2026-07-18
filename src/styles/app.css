@@ -1,0 +1,571 @@
+/* TwinMS — component styles. All values come from the tokens in styleguide.css. */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--canvas);
+}
+
+a { color: var(--ink); }
+a:hover { color: var(--accent); }
+
+.page {
+  min-height: 100vh;
+  background: var(--canvas);
+  font-family: var(--font-sans);
+  color: var(--ink);
+  padding: 46px 20px 60px;
+  box-sizing: border-box;
+}
+
+/* Fixed marginalia in the four page corners */
+.corner {
+  position: fixed;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  pointer-events: none;
+}
+.corner--tl { top: 14px; left: 16px; }
+.corner--tr { top: 14px; right: 16px; }
+.corner--bl { bottom: 14px; left: 16px; }
+.corner--br { bottom: 14px; right: 16px; }
+
+.column {
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.masthead {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.brand {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+.patient-id {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+
+.greeting {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 400;
+  margin: 6px 0 4px;
+  line-height: 1.1;
+}
+.date {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+
+/* Overall status strip */
+.strip {
+  background: var(--surface);
+  border: var(--card-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.strip-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+}
+.strip-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+.strip-reason {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-left: auto;
+  text-align: right;
+}
+
+/* Cards */
+.card {
+  background: var(--surface);
+  border: var(--card-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 18px 18px 20px;
+}
+.card--alert { border: 1px dashed var(--status-high); }
+
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 1px solid var(--line-hair);
+  padding-bottom: 9px;
+  margin-bottom: 14px;
+}
+.card-title {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+.card-tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-tick);
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+.card-tag--alert { color: var(--status-high); }
+
+/* Escalation card */
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.step {
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-ctl);
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.step p {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+.step button {
+  background: var(--accent);
+  color: var(--surface);
+  border: none;
+  border-radius: 6px;
+  padding: 10px 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-tick);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+/* Biomarker card */
+.marker-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.marker-name {
+  font-family: var(--font-mono);
+  font-size: var(--text-tick);
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+.marker-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.marker-reading {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid currentColor;
+}
+.chip--normal   { color: var(--status-normal); }
+.chip--elevated { color: var(--status-elevated); }
+.chip--high     { color: var(--status-high); }
+.chip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.chart {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 16px;
+}
+.chart--last { margin-bottom: 14px; }
+.chart .band--normal   { fill: var(--status-normal-soft); }
+.chart .band--elevated { fill: var(--status-elevated-soft); }
+.chart .band--high     { fill: var(--status-high-soft); }
+.chart .tick {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  fill: var(--ink-faint);
+}
+.chart .tick--soft { fill: var(--ink-soft); }
+.chart .baseline {
+  stroke: var(--ink-soft);
+  stroke-width: 1;
+}
+.chart .trace {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+.chart .trace-dot { fill: var(--ink); }
+
+.footnote {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+  border-top: 1px solid var(--line-hair);
+  padding-top: 10px;
+  text-wrap: pretty;
+}
+
+/* Environment card */
+.temp-row {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.temp {
+  font-family: var(--font-display);
+  font-size: 42px;
+  line-height: 1;
+}
+.condition {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+.advisory {
+  border-radius: var(--radius-ctl);
+  padding: 12px 14px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.advisory--heat {
+  background: var(--status-elevated-soft);
+  border: 1px solid var(--status-elevated);
+}
+.advisory--normal {
+  background: var(--status-normal-soft);
+  border: 1px solid var(--status-normal);
+}
+.advisory-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--surface);
+  border-radius: 4px;
+  padding: 3px 6px;
+  flex: none;
+}
+.advisory--heat   .advisory-badge { background: var(--status-elevated); }
+.advisory--normal .advisory-badge { background: var(--status-normal); }
+.advisory p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+/* Medication card */
+.med-row {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.ring {
+  width: 98px;
+  height: 98px;
+  flex: none;
+}
+.ring-track {
+  fill: none;
+  stroke: var(--surface-tint);
+  stroke-width: 8;
+}
+.ring-progress {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 8;
+  stroke-linecap: round;
+}
+.ring-pct {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 500;
+  fill: var(--ink);
+}
+.ring-caption {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.08em;
+  fill: var(--ink-soft);
+}
+.med-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.med-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+}
+.med-meta {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--ink-soft);
+}
+.med-days {
+  font-size: 14px;
+  margin-top: 6px;
+}
+.med-days strong { font-weight: 600; }
+.med-dates {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.btn-primary {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--accent);
+  color: var(--surface);
+  border: none;
+  border-radius: var(--radius-ctl);
+  padding: 13px 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+
+.disclaimer {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+  color: var(--ink-faint);
+  text-align: center;
+  margin: 6px 12px 0;
+  text-wrap: pretty;
+}
+.disclaimer a { color: var(--ink-faint); }
+.disclaimer button {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: var(--ink-faint);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.disclaimer button:hover { color: var(--accent); }
+
+/* Demo controls — not part of the product UI; drives the mock states */
+.demo {
+  border-top: 1px solid var(--line-hair);
+  margin-top: 8px;
+  padding-top: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+}
+.demo label {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+.demo input[type="range"] { width: 90px; accent-color: var(--accent); }
+.demo input[type="checkbox"] { accent-color: var(--accent); margin: 0; }
+
+/* ---- Login ---- */
+
+.login-page {
+  min-height: 100vh;
+  background: var(--canvas);
+  font-family: var(--font-sans);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 20px;
+  box-sizing: border-box;
+}
+.login-column {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.login-brand {
+  text-align: center;
+  margin-bottom: 8px;
+}
+.login-title {
+  font-family: var(--font-display);
+  font-size: 40px;
+  line-height: 1;
+}
+.login-tagline {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.14em;
+  color: var(--ink-soft);
+  margin-top: 10px;
+}
+.login-card {
+  background: var(--surface);
+  border: var(--card-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: 22px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.login-card .card-head { margin-bottom: 0; }
+
+.role-toggle {
+  display: flex;
+  gap: 4px;
+  background: var(--surface-tint);
+  border-radius: var(--radius-ctl);
+  padding: 4px;
+}
+.role-btn {
+  flex: 1;
+  border: none;
+  padding: 11px 0;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  border-radius: 7px;
+  transition: background 0.15s;
+  background: transparent;
+  color: var(--ink-soft);
+}
+.role-btn.is-on {
+  background: var(--accent);
+  color: var(--surface);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-tick);
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+}
+.field input {
+  box-sizing: border-box;
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-ctl);
+  padding: 12px 14px;
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  color: var(--ink);
+  outline-color: var(--accent);
+}
+.field input::placeholder { color: var(--ink-faint); }
+
+.btn-signin {
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: var(--accent);
+  color: var(--surface);
+  border: none;
+  border-radius: var(--radius-ctl);
+  padding: 14px 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+}
+.btn-signin:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.login-note {
+  margin: -6px 0 0;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.login-hint {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+  color: var(--ink-faint);
+  text-align: center;
+  margin: 0 12px;
+}
+.login-disclaimer {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+  color: var(--ink-faint);
+  text-align: center;
+  margin: 0 12px;
+  text-wrap: pretty;
+}
