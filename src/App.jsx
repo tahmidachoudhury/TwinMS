@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Login from './pages/Login.jsx';
 import Dashboard from './pages/Dashboard.jsx';
+import AnalyticsDashboard from './pages/AnalyticsDashboard.jsx';
 import Corners from './components/Corners.jsx';
 import { getCurrentPatientId } from './auth.js';
 
@@ -17,6 +18,7 @@ export default function App() {
         <Route path="/" element={<HomeRedirect />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard/:patientId" element={<Dashboard />} />
+        <Route path="/analytics-dashboard" element={<AnalyticsDashboard />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
