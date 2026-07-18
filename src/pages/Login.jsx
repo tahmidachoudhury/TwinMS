@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { brand, patients } from '../data/twinms-config.js';
-import { signIn } from '../auth.js';
+import { signIn, signInClinician } from '../auth.js';
 
 export default function Login() {
   const [role, setRole] = useState('patient');
@@ -12,7 +12,11 @@ export default function Login() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (isClinician) return;
+    if (isClinician) {
+      signInClinician();
+      navigate('/clinician');
+      return;
+    }
     const id = signIn(email);
     navigate(`/dashboard/${id}`);
   };
@@ -61,10 +65,10 @@ export default function Login() {
             />
           </label>
 
-          <button type="submit" className="btn-signin" disabled={isClinician}>
+          <button type="submit" className="btn-signin">
             SIGN IN &rarr;
           </button>
-          {isClinician && <p className="login-note">CLINICIAN VIEW ARRIVES IN A LATER ITERATION</p>}
+          {isClinician && <p className="login-note">DEMO CLINICIAN ACCOUNT · ANY EMAIL OR PASSWORD</p>}
         </form>
 
         <p className="login-hint">
