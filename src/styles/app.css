@@ -1,13 +1,25 @@
 /* TwinMS — component styles. All values come from the tokens in styleguide.css. */
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   background: var(--canvas);
 }
 
-a { color: var(--ink); }
-a:hover { color: var(--accent); }
+a {
+  color: var(--ink);
+}
+a:hover {
+  color: var(--accent);
+}
+
+.text-body {
+  font-family: var(--font-mono);
+  font-size: var(--text-body);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
 
 .page {
   min-height: 100vh;
@@ -27,17 +39,59 @@ a:hover { color: var(--accent); }
   color: var(--ink-faint);
   pointer-events: none;
 }
-.corner--tl { top: 14px; left: 16px; }
-.corner--tr { top: 14px; right: 16px; }
-.corner--bl { bottom: 14px; left: 16px; }
-.corner--br { bottom: 14px; right: 16px; }
+.corner--tl {
+  top: 14px;
+  left: 16px;
+}
+.corner--tr {
+  top: 14px;
+  right: 16px;
+}
+.corner--bl {
+  bottom: 14px;
+  left: 16px;
+}
+.corner--br {
+  bottom: 14px;
+  right: 16px;
+}
 
 .column {
-  max-width: 420px;
+  width: min(100%, 1280px);
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 14px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 14px;
+  align-items: start;
+}
+.grid-card {
+  min-width: 0;
+}
+.assistant-card {
+  grid-column: span 2;
+}
+.biomarker-card {
+  grid-column: span 3;
+}
+.steps-card {
+  grid-column: span 1;
+}
+.support-stack {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.support-stack .grid-card {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .masthead {
@@ -110,7 +164,9 @@ a:hover { color: var(--accent); }
   box-shadow: var(--shadow-card);
   padding: 18px 18px 20px;
 }
-.card--alert { border: 1px dashed var(--status-high); }
+.card--alert {
+  border: 1px dashed var(--status-high);
+}
 
 .card-head {
   display: flex;
@@ -132,7 +188,136 @@ a:hover { color: var(--accent); }
   letter-spacing: 0.1em;
   color: var(--ink-soft);
 }
-.card-tag--alert { color: var(--status-high); }
+.card-tag--alert {
+  color: var(--status-high);
+}
+.card-tag--live {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--status-normal);
+}
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* AI assistant */
+.assistant-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 390px;
+}
+
+.assistant-intro {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0 0 12px;
+}
+.assistant-intro p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.assistant-mark {
+  display: grid;
+  place-items: center;
+  width: 25px;
+  height: 25px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+}
+.chat-messages {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 9px;
+  overflow-y: auto;
+  min-height: 150px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.01em;
+  padding: 2px 1px 12px;
+  text-transform: uppercase;
+}
+.chat-message {
+  max-width: 88%;
+  border-radius: 8px;
+  padding: 10px 11px;
+  font-size: 12px;
+  line-height: 1.45;
+  font-family: var(--font-mono);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.chat-message--assistant {
+  align-self: flex-start;
+  background: var(--surface-tint);
+  color: var(--ink);
+}
+.chat-message--user {
+  align-self: flex-end;
+  background: var(--accent);
+  color: var(--surface);
+}
+.chat-form {
+  display: flex;
+  gap: 7px;
+  border-top: 1px solid var(--line-hair);
+  padding-top: 12px;
+}
+.chat-form input {
+  min-width: 0;
+  flex: 1;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-ctl);
+  padding: 10px 11px;
+  background: var(--surface);
+  color: var(--ink);
+  font: 12px var(--font-mono);
+  outline-color: var(--accent);
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+}
+.chat-form input::placeholder {
+  color: var(--ink-faint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+}
+.chat-form button {
+  width: 37px;
+  border: none;
+  border-radius: var(--radius-ctl);
+  background: var(--accent);
+  color: var(--surface);
+  font: 18px var(--font-mono);
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 /* Escalation card */
 .steps {
@@ -167,6 +352,19 @@ a:hover { color: var(--accent); }
   font-weight: 500;
   letter-spacing: 0.1em;
   cursor: pointer;
+}
+.steps-card .steps {
+  gap: 8px;
+}
+.steps-card .step {
+  padding: 10px;
+}
+.steps-card .step p {
+  font-size: 10px;
+}
+.steps-card .step button {
+  padding: 9px 5px;
+  font-size: 9px;
 }
 
 /* Biomarker card */
@@ -203,9 +401,15 @@ a:hover { color: var(--accent); }
   border-radius: 20px;
   border: 1px solid currentColor;
 }
-.chip--normal   { color: var(--status-normal); }
-.chip--elevated { color: var(--status-elevated); }
-.chip--high     { color: var(--status-high); }
+.chip--normal {
+  color: var(--status-normal);
+}
+.chip--elevated {
+  color: var(--status-elevated);
+}
+.chip--high {
+  color: var(--status-high);
+}
 .chip-dot {
   width: 6px;
   height: 6px;
@@ -219,16 +423,26 @@ a:hover { color: var(--accent); }
   display: block;
   margin-bottom: 16px;
 }
-.chart--last { margin-bottom: 14px; }
-.chart .band--normal   { fill: var(--status-normal-soft); }
-.chart .band--elevated { fill: var(--status-elevated-soft); }
-.chart .band--high     { fill: var(--status-high-soft); }
+.chart--last {
+  margin-bottom: 14px;
+}
+.chart .band--normal {
+  fill: var(--status-normal-soft);
+}
+.chart .band--elevated {
+  fill: var(--status-elevated-soft);
+}
+.chart .band--high {
+  fill: var(--status-high-soft);
+}
 .chart .tick {
   font-family: var(--font-mono);
   font-size: 8px;
   fill: var(--ink-faint);
 }
-.chart .tick--soft { fill: var(--ink-soft); }
+.chart .tick--soft {
+  fill: var(--ink-soft);
+}
 .chart .baseline {
   stroke: var(--ink-soft);
   stroke-width: 1;
@@ -238,7 +452,9 @@ a:hover { color: var(--accent); }
   stroke: var(--ink);
   stroke-width: 1.6;
 }
-.chart .trace-dot { fill: var(--ink); }
+.chart .trace-dot {
+  fill: var(--ink);
+}
 
 .footnote {
   font-size: 12px;
@@ -293,8 +509,12 @@ a:hover { color: var(--accent); }
   padding: 3px 6px;
   flex: none;
 }
-.advisory--heat   .advisory-badge { background: var(--status-elevated); }
-.advisory--normal .advisory-badge { background: var(--status-normal); }
+.advisory--heat .advisory-badge {
+  background: var(--status-elevated);
+}
+.advisory--normal .advisory-badge {
+  background: var(--status-normal);
+}
 .advisory p {
   margin: 0;
   font-size: 12px;
@@ -357,7 +577,9 @@ a:hover { color: var(--accent); }
   font-size: 14px;
   margin-top: 6px;
 }
-.med-days strong { font-weight: 600; }
+.med-days strong {
+  font-weight: 600;
+}
 .med-dates {
   font-size: 12px;
   color: var(--ink-soft);
@@ -387,7 +609,9 @@ a:hover { color: var(--accent); }
   margin: 6px 12px 0;
   text-wrap: pretty;
 }
-.disclaimer a { color: var(--ink-faint); }
+.disclaimer a {
+  color: var(--ink-faint);
+}
 .disclaimer button {
   background: none;
   border: none;
@@ -398,7 +622,9 @@ a:hover { color: var(--accent); }
   text-decoration: underline;
   cursor: pointer;
 }
-.disclaimer button:hover { color: var(--accent); }
+.disclaimer button:hover {
+  color: var(--accent);
+}
 
 /* Demo controls — not part of the product UI; drives the mock states */
 .demo {
@@ -420,8 +646,72 @@ a:hover { color: var(--accent); }
   gap: 7px;
   cursor: pointer;
 }
-.demo input[type="range"] { width: 90px; accent-color: var(--accent); }
-.demo input[type="checkbox"] { accent-color: var(--accent); margin: 0; }
+.demo input[type="range"] {
+  width: 90px;
+  accent-color: var(--accent);
+}
+.demo input[type="checkbox"] {
+  accent-color: var(--accent);
+  margin: 0;
+}
+
+@media (max-width: 980px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .assistant-card,
+  .biomarker-card,
+  .steps-card,
+  .support-stack {
+    grid-column: span 2;
+  }
+  .support-stack {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .page {
+    padding: 28px 14px 48px;
+  }
+  .dashboard-grid {
+    display: flex;
+    flex-direction: column;
+  }
+  .assistant-card,
+  .biomarker-card,
+  .steps-card,
+  .support-stack {
+    width: 100%;
+  }
+  .support-stack {
+    display: flex;
+  }
+  .strip {
+    align-items: flex-start;
+  }
+  .strip-reason {
+    max-width: 45%;
+  }
+  .card {
+    padding: 15px 14px 16px;
+  }
+  .marker-row {
+    gap: 8px;
+    align-items: flex-start;
+  }
+  .marker-name {
+    line-height: 1.4;
+  }
+  .marker-value {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .demo {
+    flex-wrap: wrap;
+  }
+}
 
 /* ---- Login ---- */
 
@@ -469,7 +759,9 @@ a:hover { color: var(--accent); }
   flex-direction: column;
   gap: 16px;
 }
-.login-card .card-head { margin-bottom: 0; }
+.login-card .card-head {
+  margin-bottom: 0;
+}
 
 .role-toggle {
   display: flex;
@@ -521,7 +813,9 @@ a:hover { color: var(--accent); }
   color: var(--ink);
   outline-color: var(--accent);
 }
-.field input::placeholder { color: var(--ink-faint); }
+.field input::placeholder {
+  color: var(--ink-faint);
+}
 
 .btn-signin {
   display: block;
