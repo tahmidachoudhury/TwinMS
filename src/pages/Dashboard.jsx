@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { patients } from '../data/twinms-config.js';
 import { getCurrentPatientId, signOut } from '../auth.js';
 import MarkerChart from '../components/MarkerChart.jsx';
@@ -218,6 +218,10 @@ export default function Dashboard() {
       <div className="column">
         <header className="masthead">
           <span className="brand">TWINMS</span>
+          <nav className="patient-nav" aria-label="Patient navigation">
+            <span aria-current="page">OVERVIEW</span>
+            <Link to="/analytics-dashboard">WEARABLE ANALYTICS</Link>
+          </nav>
           <span className="patient-id">ID {patient.id}</span>
         </header>
 
